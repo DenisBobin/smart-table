@@ -22,10 +22,19 @@ const {data, ...indexes} = initData(sourceData);
  * @returns {Object}
  */
 function collectState() {
-    const state = processFormData(new FormData(sampleTable.container));
+    const formData = new FormData(sampleTable.container);
+
+    // временная проверка
+    // console.log('FormData entries:', [...formData.entries()]);
+    const state = processFormData(formData);
 
     const rowsPerPage = parseInt(state.rowsPerPage); // приведём количество страниц к числу
     const page = parseInt(state.page ?? 1);          // номер страницы по умолчанию 1 и тоже число
+
+// собираем диапазон суммы вручную
+    state.total = [state.totalFrom, state.totalTo];
+
+    console.log('state после обработки:', state);
 
     return {                                         // расширьте существующий return вот так
         ...state,
